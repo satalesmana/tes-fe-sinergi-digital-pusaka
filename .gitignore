@@ -1,0 +1,38 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/biodata-web-app/node_modules
+/.pnp
+.pnp.js
+
+/mobile-testapp/node_modules
+/mobile-testapp/.expo/
+# testing
+/coverage
+
+# next.js
+/biodata-web-app/.next/
+/biodata-web-app/out/
+
+# production
+/biodata-web-app/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+/biodata-web-app/npm-debug.log*
+/biodata-web-app/yarn-debug.log*
+/biodata-web-app/yarn-error.log*
+/biodata-web-app/.pnpm-debug.log*
+
+# local env files
+/biodata-web-app/.env*.local
+
+# vercel
+/biodata-web-app/.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
