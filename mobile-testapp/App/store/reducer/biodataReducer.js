@@ -8,9 +8,19 @@ export const biodataSlice = createSlice({
         nama: "",
         email: "",
         tempatLahir: "",
+        tempatLahirVal:"",
         tglLahir: "",
         alamat:"",
         fotoKTP: [],
+        countries:[
+            { value: "Bekasi", key: 1 },
+            { value: "Jakarta", key: 2 },
+            { value: "Surabaya", key: 3 },
+            { value: "Bandung", key: 4 },
+            { value: "Padang", key: 5 },
+            { value: "Palembang", key: 6 },
+            { value: "Yogyakarta", key: 7 }
+        ]
     },
   reducers: {
     setNoKTP:(state, actions)=>{
@@ -23,7 +33,12 @@ export const biodataSlice = createSlice({
         state.email =actions.payload
     },
     setTempatLahir:(state, actions)=>{
-        state.tempatLahir = actions.payload
+        state.tempatLahirVal = actions.payload
+        state.countries.map((data)=>{
+            if(data.key == actions.payload){
+                state.tempatLahir = data.value
+            }
+        })
     },
     setTglLahir:(state, actions)=>{
         state.tglLahir = actions.payload
