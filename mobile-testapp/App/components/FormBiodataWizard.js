@@ -1,60 +1,119 @@
 
 import React from 'react';
-import FormInputBiodata from './FormBiodata/FormInput'
-import FormUploadBiodata from './FormBiodata/FormUpload'
-import FormPreviewBiodata from './FormBiodata/FormPreview'
 import { useSelector, useDispatch } from 'react-redux'
 import { 
     setNext,
     setPrev
 } from '../store/reducer/biodataReducer'
-import { 
-    Col,
-    Button,
-    Row
-} from 'reactstrap';
+import { Button, Card} from '@rneui/themed';
+import {View, Text, Dimensions, StyleSheet} from 'react-native';
+const WINDOW_HEIGHT = Dimensions.get('window').height;
+const WINDOW_WIDTH  = Dimensions.get('window').width;
 
-const FormBiodataWizard=()=> {
+export const FormBiodataWizard=()=> {
     const stepWizard = useSelector((state) => state.biodata.counter)
     const dispatch = useDispatch();
 
     if(stepWizard == 0){
         return(
-            <Col style={{minWidth:580, minHeight:220 }}>
-                <FormInputBiodata/>
-                <Col style={{float:'right'}}>
-                    <Button color="primary" onClick={()=>dispatch(setNext())}> Next </Button>
-                </Col>
-            </Col>
+            <View>
+                <Card containerStyle={{ marginTop: 15 }}>
+                    <Card.Title>STEP 1 OF 3</Card.Title>
+                    <Card.Divider />
+                    <View style={{marginBottom:10}}>
+                        <Text>Body step 1</Text>
+                    </View>
+                    <Button 
+                        color="primary"  
+                        title="Next" 
+                        icon={{
+                            name: 'arrow-right',
+                            type: 'font-awesome',
+                            size: 15,
+                            color: 'white',
+                        }}
+                        onPress={()=>dispatch(setNext())}/>
+                </Card>
+            </View>
         )
     }else if(stepWizard == 1){
         return(
-            <Col style={{minWidth:580}}>
-                <FormUploadBiodata/>
-                <Row>
-                    <Col style={{float:'left'}}>
-                        <Button color="danger" onClick={()=>dispatch(setPrev())}> Prev </Button>
-                    </Col>
-                    <Col style={{textAlign:'end', float:'right'}}>
-                        <Button color="primary" onClick={()=>dispatch(setNext())}> Next </Button>
-                    </Col>
-                </Row>
-            </Col>
+            <View>
+                <Card containerStyle={{ marginTop: 15 }}>
+                    <Card.Title>STEP 2 OF 3</Card.Title>
+                    <Card.Divider />
+                    <View style={{marginBottom:10}}>
+                        <Text>Body step 2</Text>
+                    </View>
+
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flex:1, paddingRight:10}}>
+                            <Button 
+                                color="secondary"  
+                                title="Preview" 
+                                onPress={()=>dispatch(setPrev())}
+                                icon={{
+                                    name: 'arrow-left',
+                                    type: 'font-awesome',
+                                    size: 15,
+                                    color: 'white',
+                                }}/>
+                        </View>
+                        <View style={{flex:1, paddingLeft:10}}>
+                            <Button 
+                                color="primary" 
+                                title="Next" 
+                                icon={{
+                                    name: 'arrow-right',
+                                    type: 'font-awesome',
+                                    size: 15,
+                                    color: 'white',
+                                }}
+                                onPress={()=>dispatch(setNext())}/>
+                        </View>
+                    </View>
+                </Card>
+
+                
+            </View>
         )
     }else if(stepWizard == 2){
         return( 
-            <Col style={{minWidth:580, minHeight:220, maxWidth:680}}>
-                <FormPreviewBiodata/>
-                <Row>
-                    <Col style={{float:'left'}}>
-                        <Button color="danger" onClick={()=>dispatch(setPrev())}> Prev </Button>
-                    </Col>
-                </Row>
-            </Col>
+            <View style={{flex:1}}>
+                <Text>Step 3</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flex:1, paddingRight:10}}>
+                            <Button 
+                                color="secondary"  
+                                title="Preview" 
+                                onPress={()=>dispatch(setPrev())}
+                                icon={{
+                                    name: 'arrow-left',
+                                    type: 'font-awesome',
+                                    size: 15,
+                                    color: 'white',
+                                }}/>
+                        </View>
+                        <View style={{flex:1, paddingLeft:10}}>
+                            <Button 
+                                color="success" 
+                                title="Submit" 
+                                icon={{
+                                    name: 'arrow-right',
+                                    type: 'font-awesome',
+                                    size: 15,
+                                    color: 'white',
+                                }}
+                                onPress={()=>alert("data submited")}/>
+                        </View>
+                    </View>
+            </View>
         )
     }else{
         return null
     }
 }
 
-export default FormBiodataWizard;
+const style =  StyleSheet.create({
+    
+})
