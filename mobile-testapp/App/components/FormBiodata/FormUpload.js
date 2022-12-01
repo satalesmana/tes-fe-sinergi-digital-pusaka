@@ -1,138 +1,74 @@
-import React from 'react';
-import {useDropzone} from 'react-dropzone';
+import React,{useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { 
- setFotoKTP
-} from '../../store/reducer/biodataReducer'
+import {  setFotoKTP } from '../../store/reducer/biodataReducer'
+import { Image, View} from 'react-native'
+import * as ImagePicker from 'expo-image-picker';
+import { Button } from '@rneui/themed';
 
-const baseStyle = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'border .24s ease-in-out'
-  };
-  
-  const focusedStyle = {
-    borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  };
-
-  //Preview style
-  const thumbsContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 16,
-    justifyContent:"center", 
-  };
-  
-  const thumb = {
-    display: 'inline-flex',
-    borderRadius: 2,
-    border: '1px solid #eaeaea',
-    marginBottom: 8,
-    marginRight: 8,
-    width: 300,
-    height: 300,
-    padding: 4,
-    boxSizing: 'border-box'
-  };
-  
-  const thumbInner = {
-    display: 'flex',
-    minWidth: 0,
-    overflow: 'hidden'
-  };
-  
-  const img = {
-    display: 'block',
-    width: 'auto',
-    height: '100%'
-  };
-
-const FormUpload=()=> {
-  const dispatch = useDispatch()
+export const FormUpload=()=> {
   const fotoKTP = useSelector((state) => state.biodata.fotoKTP)
+  const dispatch = useDispatch();
 
-  const handleDrop = React.useCallback((acceptedFiles) => {
-    const file = acceptedFiles.find(f => f)
-    let reader = new FileReader()
-    
-    reader.readAsDataURL(file)
-      reader.onload = () => {
-        dispatch(setFotoKTP(
-          [{
-            size:file.size,
-            type:file.type,
-            name:file.name,
-            preview: URL.createObjectURL(file),
-            data: reader.result
-          }]
-        ))
-      }
-   }, []);
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject} = useDropzone({
-      accept: {
-      'image/*': []
-      },
-      onDrop:handleDrop
-  });
+    if (!result.canceled) {
+      dispatch(setFotoKTP(result.assets[0].uri))
+    }
+  };
 
-  const style = React.useMemo(() => ({
-      ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {})
-    }), [
-      isFocused,
-      isDragAccept,
-      isDragReject
-    ]);
-    
-  const thumbs = fotoKTP.map(file => (
-      <div style={thumb} key={file.name}>
-        <div style={thumbInner}>
-            <img
-            src={file.data}
-            style={img}
-            onLoad={() => { URL.revokeObjectURL(file.preview) }}
-            />
-        </div>
-      </div>
-  ));
-  
-  React.useEffect(() => {
-    return () => fotoKTP.forEach(file => URL.revokeObjectURL(file));
-  }, []);
-    
-  return (
-      <section className="container" style={{minHeight:420 }}>
-        <div {...getRootProps({style})}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
-        </div>
-        <aside style={thumbsContainer}>
-            {thumbs}
-        </aside>
-      </section>
-  );
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      dispatch(setFotoKTP(result.assets[0].uri))
+    }
+  };
+
+
+  return(
+    <View>
+      {fotoKTP && (
+        <View style={{alignItems:'center'}}>
+          <Image
+            source={{ uri: fotoKTP }}
+            style={{ width: 300, height: 300 }}
+          />
+        </View>
+      )}
+      <View style={{flexDirection:'row',justifyContent:'center'}}>
+        <Button 
+          title="Choose Photo" 
+          color="primary"  
+          icon={{
+            name: 'image',
+            type: 'font-awesome',
+            size: 15,
+            color: 'white',
+          }}
+          onPress={pickImage} />
+
+        <Button 
+          title="Open Camera" 
+          color="warning"
+          icon={{
+            name: 'camera',
+            type: 'font-awesome',
+            size: 15,
+            color: 'white',
+          }}
+          onPress={openCamera} />
+      </View>
+    </View>
+  )
 }
-
-export default FormUpload;

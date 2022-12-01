@@ -11,7 +11,7 @@ export const biodataSlice = createSlice({
         tempatLahirVal:"",
         tglLahir: "",
         alamat:"",
-        fotoKTP: [],
+        fotoKTP: null,
         countries:[
             { value: "Bekasi", key: 1 },
             { value: "Jakarta", key: 2 },

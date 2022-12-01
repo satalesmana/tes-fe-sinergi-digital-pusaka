@@ -7,7 +7,8 @@ import {
 } from '../store/reducer/biodataReducer'
 import { Button, Card} from '@rneui/themed';
 import {View, Text, Dimensions, StyleSheet} from 'react-native';
-import {FormInput} from './FormBiodata/FormInput'
+import { FormInput } from './FormBiodata/FormInput'
+import { FormUpload } from './FormBiodata/FormUpload'
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH  = Dimensions.get('window').width;
 
@@ -44,7 +45,7 @@ export const FormBiodataWizard=()=> {
                     <Card.Title>STEP 2 OF 3</Card.Title>
                     <Card.Divider />
                     <View style={{marginBottom:10}}>
-                        <Text>Body step 2</Text>
+                        <FormUpload/>
                     </View>
 
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
