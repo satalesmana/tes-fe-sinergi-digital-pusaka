@@ -54,6 +54,17 @@ export const biodataSlice = createSlice({
     },
     setPrev:(state) => {
         state.counter -= 1
+    },
+    resetData:(state)=>{
+        state.counter= 0
+        state.noKTP=""
+        state.nama= ""
+        state.email= ""
+        state.tempatLahir= ""
+        state.tempatLahirVal=""
+        state.tglLahir= ""
+        state.alamat=""
+        state.fotoKTP= null
     }
   }
 })
@@ -68,5 +79,6 @@ export const {
     setFotoKTP,
     setNoKTP,
     setNext,
-    setPrev
+    setPrev,
+    resetData
 } = biodataSlice.actions

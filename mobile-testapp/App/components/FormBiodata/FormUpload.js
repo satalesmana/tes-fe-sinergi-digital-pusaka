@@ -1,9 +1,10 @@
 import React,{useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {  setFotoKTP } from '../../store/reducer/biodataReducer'
-import { Image, View} from 'react-native'
+import { Image, View, Text, Dimensions} from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '@rneui/themed';
+const WINDOW_WIDTH  = Dimensions.get('window').width;
 
 export const FormUpload=()=> {
   const fotoKTP = useSelector((state) => state.biodata.fotoKTP)
@@ -38,14 +39,21 @@ export const FormUpload=()=> {
 
   return(
     <View>
-      {fotoKTP && (
-        <View style={{alignItems:'center'}}>
-          <Image
-            source={{ uri: fotoKTP }}
-            style={{ width: 300, height: 300 }}
-          />
+      <Text style={{textAlign:'center', marginBottom:20}}>Pilih Foto KTP</Text>
+        <View style={{
+            alignItems:'center', 
+            minHeight:300, 
+            borderWidth:1,
+            borderRadius:5,
+            marginBottom:5
+          }}>
+          {fotoKTP && (
+              <Image
+                source={{ uri: fotoKTP }}
+                style={{ width: WINDOW_WIDTH-70, height: 300 }}
+              />
+          )}
         </View>
-      )}
       <View style={{flexDirection:'row',justifyContent:'center'}}>
         <Button 
           title="Choose Photo" 

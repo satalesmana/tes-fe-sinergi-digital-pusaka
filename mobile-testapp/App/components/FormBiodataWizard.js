@@ -6,15 +6,27 @@ import {
     setPrev
 } from '../store/reducer/biodataReducer'
 import { Button, Card} from '@rneui/themed';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {View, Alert , Dimensions, StyleSheet} from 'react-native';
 import { FormInput } from './FormBiodata/FormInput'
 import { FormUpload } from './FormBiodata/FormUpload'
+import { FormPreview } from './FormBiodata/FormPreview'
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH  = Dimensions.get('window').width;
+import {  resetData } from '../store/reducer/biodataReducer'
 
 export const FormBiodataWizard=()=> {
     const stepWizard = useSelector((state) => state.biodata.counter)
     const dispatch = useDispatch();
+
+    const onSubmitData=()=>{
+        Alert.alert(
+            "Info",
+            "Data Berhasil dikirim",
+            [
+              { text: "OK", onPress: () => dispatch(resetData()) }
+            ]
+        );
+    }
 
     if(stepWizard == 0){
         return(
@@ -52,7 +64,7 @@ export const FormBiodataWizard=()=> {
                         <View style={{flex:1, paddingRight:10}}>
                             <Button 
                                 color="secondary"  
-                                title="Preview" 
+                                title="Prev" 
                                 onPress={()=>dispatch(setPrev())}
                                 icon={{
                                     name: 'arrow-left',
@@ -75,19 +87,23 @@ export const FormBiodataWizard=()=> {
                         </View>
                     </View>
                 </Card>
-
-                
             </View>
         )
     }else if(stepWizard == 2){
         return( 
-            <View style={{flex:1}}>
-                <Text>Step 3</Text>
-                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+            <View>
+                <Card containerStyle={{ marginTop: 15 }}>
+                    <Card.Title>STEP 3 OF 3</Card.Title>
+                    <Card.Divider />
+                    <View style={{marginBottom:10}}>
+                        <FormPreview/>
+                    </View>
+
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                         <View style={{flex:1, paddingRight:10}}>
                             <Button 
                                 color="secondary"  
-                                title="Preview" 
+                                title="Prev" 
                                 onPress={()=>dispatch(setPrev())}
                                 icon={{
                                     name: 'arrow-left',
@@ -106,9 +122,10 @@ export const FormBiodataWizard=()=> {
                                     size: 15,
                                     color: 'white',
                                 }}
-                                onPress={()=>alert("data submited")}/>
+                                onPress={onSubmitData}/>
                         </View>
                     </View>
+                </Card>
             </View>
         )
     }else{
